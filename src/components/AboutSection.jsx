@@ -19,7 +19,7 @@ export const AboutSection = () => {
               I am <span className="font-semibold text-primary">Umar Faruque</span>, 
               a passionate <span className="font-semibold">Full Stack Web Developer</span> 
               and current <span className="font-semibold">MCA student at SRM Institute of Science and Technology, Ghaziabad, Delhi-NCR</span>.  
-              I have completed my <span className="font-semibold">BCA from Patliputra University, Patna</span>.
+              I have completed my <span className="font-semibold">BA from Veer Kunwar Singh University, Ara</span>.
             </p>
 
             <p className="text-muted-foreground">
