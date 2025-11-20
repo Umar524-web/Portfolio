@@ -21,7 +21,7 @@ const projects = [
   },
   {
     id: 3,
-    title: "CinemaCity",
+    title: "DashMess",
     description: "Dashmesh brings deliciousness to your doorstep — order fresh and flavorful Pizza, Pasta, Dosa, Noodles, and more. Taste the joy of authentic food made with love and quality.",
     image: "/projects/project3.png",
     tags: ["React", "TalwindCSS", "JavaScript"],
@@ -33,8 +33,8 @@ const projects = [
 export const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 px-4 relative">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+      <div className="container mx-auto max-w-6xl">
+        <h2 className="text-3xl md:text-4xl font-bold mb-5 text-center">
           {" "}
           <span className="text-primary"> Projects </span>
         </h2>

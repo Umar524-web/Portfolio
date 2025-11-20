@@ -16,7 +16,7 @@ export const HeroSection = () => {
             <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 bg-gradient-to-r from-primary via-purple-500 to-secondary animate-fade-in">
               <img
                 src="/image.png" // This should match the image name in your /public folder
-                alt="Banti Kushwaha"
+                alt="Umar image"
                 className="w-full h-full object-cover rounded-full border-4 border-background"
               />
             </div>
@@ -27,8 +27,8 @@ export const HeroSection = () => {
           <div className="text-center lg:text-left mt-14">
             <div className="space-y-6">
               {/* Heading */}
-              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-                <span className="opacity-0 animate-fade-in">Hi, I'm</span>
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
+                <span className="opacity-0 animate-fade-in">Hi,<br /> I'm</span>
                 <span className="text-primary opacity-0 animate-fade-in-delay-1">
                   {" "}
                   Umar
@@ -43,7 +43,7 @@ export const HeroSection = () => {
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 opacity-0 animate-fade-in-delay-3 text-justify">
                 Passionate and dedicated{" "}
                 <span className="font-semibold text-primary">
-                  Full Stack Web Developer &nbsp;
+                  Full Stack Web Developer {" "}
                 </span>
                 and current{" "}
                 <span className="font-semibold">
