@@ -8,167 +8,123 @@ export const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  // ✅ YOUR GOOGLE SCRIPT URL
+  const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbykSJDiDWlTwk-qJ8pawyjVD5uEneiLHxdtlNPBCYIXlUr6DpOlwzfoeNrCuU11SKYE/exec";
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-        const serviceID = "service_jyhf51k"; 
-    const templateID = "template_j323b8m"; 
-    const publicKey = "fHlUQp1G8Rq5esZ23"; 
+    const form = e.target;
 
-    emailjs
-      .sendForm(serviceID, templateID, e.target, publicKey)
-      .then(() => {
-        toast({
-          title: "Message sent! ✅",
-          description: "Thank you for your message. I'll get back to you soon.",
-        });
-        setIsSubmitting(false);
-        e.target.reset();
-      })
-      .catch((error) => {
-        console.error("EmailJS Error:", error);
-        toast({
-          title: "Error ❌",
-          description: "Something went wrong. Please try again.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
+    const serviceID = "service_jyhf51k";
+    const templateID = "template_j323b8m";
+    const publicKey = "fHlUQp1G8Rq5esZ23";
+
+    try {
+      // ✅ 1. SEND EMAIL
+      await emailjs.sendForm(serviceID, templateID, form, publicKey);
+
+      // ✅ 2. SEND DATA TO GOOGLE SHEETS (CORS SAFE)
+      const formBody = new URLSearchParams();
+      formBody.append("name", form.name.value);
+      formBody.append("email", form.email.value);
+      formBody.append("message", form.message.value);
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors", // IMPORTANT
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formBody,
       });
+
+      toast({
+        title: "Message sent! ✅",
+        description: "Saved in Google Sheets + Email sent 🚀",
+      });
+
+      form.reset();
+    } catch (error) {
+      console.error("Error:", error);
+
+      toast({
+        title: "Error ❌",
+        description: "Something went wrong.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <section id="contact" className="py-24 px-4 relative bg-secondary/30">
+    <section id="contact" className="py-24 px-4 bg-secondary/30">
       <div className="container mx-auto max-w-6xl">
+
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
           Get In <span className="text-primary">Touch</span>
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Have a project in mind or want to collaborate? Feel free to reach out.
+          Have a project in mind? Feel free to contact me.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* LEFT — CONTACT INFO */}
-          <div className="bg-card p-8 rounded-xl shadow-sm text-left">
-            <h3 className="text-2xl font-semibold mb-8 border-b pb-2">
-              Contact Information
+
+          {/* LEFT SIDE */}
+          <div className="bg-card p-8 rounded-xl shadow-sm">
+            <h3 className="text-2xl font-semibold mb-6 border-b pb-2">
+              Contact Info
             </h3>
 
-            <div className="space-y-10">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Mail className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Email</h4>
-
-                  <a
-                    href="mailto:ufaruque524@gmail.com" 
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    ufaruque524@gmail.com 
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Phone className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Phone</h4>
-
-                  <a
-                    href="tel:+919122636896" 
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    +91 9122636896 
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <MapPin className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-medium">Location</h4>
-                  <p className="text-muted-foreground">
-                    Ghaziabad, Uttar Pradesh, India 
-                  </p>
-                </div>
-              </div>
+            <div className="space-y-4 text-muted-foreground">
+              <p><Mail className="inline mr-2" /> ufaruque524@gmail.com</p>
+              <p><Phone className="inline mr-2" /> +91 9122636896</p>
+              <p><MapPin className="inline mr-2" /> Ghaziabad, India</p>
             </div>
           </div>
 
-          {/* RIGHT — SEND MESSAGE FORM */}
-          <div className="bg-card p-8 rounded-xl shadow-sm text-left">
-            <h3 className="text-2xl font-semibold mb-8 border-b pb-2">
+          {/* RIGHT FORM */}
+          <div className="bg-card p-8 rounded-xl shadow-sm">
+            <h3 className="text-2xl font-semibold mb-6 border-b pb-2">
               Send Message
             </h3>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name" // ✅ Template variable match with EmailJS
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background 
-                             focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Your name"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email" // ✅ Template variable match with EmailJS
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background 
-                             focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Your email"
-                />
-              </div>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Your Name"
+                className="w-full p-3 border rounded"
+              />
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message" // ✅ Template variable match with EmailJS
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background 
-                             focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  placeholder="Hello, I'd like to talk about..."
-                />
-              </div>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="Your Email"
+                className="w-full p-3 border rounded"
+              />
+
+              <textarea
+                name="message"
+                required
+                rows={5}
+                placeholder="Your Message"
+                className="w-full p-3 border rounded"
+              />
 
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "cosmic-button w-full flex items-center justify-center gap-2 relative",
-                  isSubmitting && "opacity-70 cursor-not-allowed",
+                  "w-full bg-primary text-white py-3 rounded flex justify-center items-center gap-2",
+                  isSubmitting && "opacity-70 cursor-not-allowed"
                 )}
               >
                 {isSubmitting ? (
@@ -183,8 +139,10 @@ export const ContactSection = () => {
                   </>
                 )}
               </button>
+
             </form>
           </div>
+
         </div>
       </div>
     </section>
