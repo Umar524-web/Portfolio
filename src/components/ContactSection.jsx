@@ -63,7 +63,6 @@ export const ContactSection = () => {
   return (
     <section id="contact" className="py-24 px-4 bg-secondary/30">
       <div className="container mx-auto max-w-6xl">
-
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
           Get In <span className="text-primary">Touch</span>
         </h2>
@@ -73,7 +72,6 @@ export const ContactSection = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-
           {/* LEFT SIDE */}
           <div className="bg-card p-8 rounded-xl shadow-sm">
             <h3 className="text-2xl font-semibold mb-6 border-b pb-2">
@@ -81,9 +79,30 @@ export const ContactSection = () => {
             </h3>
 
             <div className="space-y-4 text-muted-foreground">
-              <p><Mail className="inline mr-2" /> ufaruque524@gmail.com</p>
-              <p><Phone className="inline mr-2" /> +91 9122636896</p>
-              <p><MapPin className="inline mr-2" /> Ghaziabad, India</p>
+              <p>
+                <Mail className="inline mr-2" />
+                <a
+                  href="mailto:ufaruque524@gmail.com"
+                  className="hover:text-primary transition-colors"
+                >
+                  ufaruque524@gmail.com
+                </a>
+              </p>
+
+              <p>
+                <Phone className="inline mr-2" />
+                <a
+                  href="tel:+919122636896"
+                  className="hover:text-primary transition-colors"
+                >
+                  +91 9122636896
+                </a>
+              </p>
+
+              <p>
+                <MapPin className="inline mr-2" />
+                Ghaziabad, India
+              </p>
             </div>
           </div>
 
@@ -94,7 +113,6 @@ export const ContactSection = () => {
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-
               <input
                 type="text"
                 name="name"
@@ -124,7 +142,7 @@ export const ContactSection = () => {
                 disabled={isSubmitting}
                 className={cn(
                   "w-full bg-primary text-white py-3 rounded flex justify-center items-center gap-2",
-                  isSubmitting && "opacity-70 cursor-not-allowed"
+                  isSubmitting && "opacity-70 cursor-not-allowed",
                 )}
               >
                 {isSubmitting ? (
@@ -139,10 +157,8 @@ export const ContactSection = () => {
                   </>
                 )}
               </button>
-
             </form>
           </div>
-
         </div>
       </div>
     </section>
